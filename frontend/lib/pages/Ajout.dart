@@ -41,29 +41,30 @@ class _AjoutState extends State<Ajout> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // NOM
           const Padding(
             padding: EdgeInsets.only(
               left: 20,
-              top: 70,
-              bottom: 30
+              top: 15,
+              bottom: 10
             ),
-            child: Text("Titre :", style: TextStyle(
+            child: Text("Nom :", style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 25,
+              fontSize: 20,
               color: Colors.blue 
               ),
             ),
           ),
           FormHelper.inputFieldWidget(
-            context, 
-            "Title", 
-            "Title", 
+            context,
+            "nom_produit",
+            "nom du produit",
             (onValidateVal){
               if(onValidateVal.isEmpty){
-                return "Le titre ne peut être vide";
+                return "Le nom ne peut être vide";
               }
               return null;
-            }, 
+            },
             (onSaved){
               title = onSaved;
             },
@@ -73,11 +74,81 @@ class _AjoutState extends State<Ajout> {
             hintColor: Colors.blue.withOpacity(0.8),
             borderRadius: 10
             ),
+          // MARQUE
+          const Padding(
+            padding: EdgeInsets.only(
+                left: 20,
+                top: 10,
+                bottom: 10
+            ),
+            child: Text("Marque :", style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.blue
+            ),
+            ),
+          ),
+            FormHelper.inputFieldWidget(
+              context,
+              "nom_produit",
+              "marque du produit",
+                  (onValidateVal){
+                if(onValidateVal.isEmpty){
+                  return "La marque ne peut être vide";
+                }
+                return null;
+              },
+                  (onSaved){
+                title = onSaved;
+              },
+              borderFocusColor: Colors.blue,
+              borderColor: Colors.blue,
+              textColor: Colors.blue,
+              hintColor: Colors.blue.withOpacity(0.8),
+              borderRadius: 10
+            ),
+          // POIDS
+          const Padding(
+            padding: EdgeInsets.only(
+                left: 20,
+                top: 10,
+                bottom: 10
+            ),
+            child: Text("Poids :", style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.blue
+            ),
+            ),
+          ),
+          FormHelper.inputFieldWidget(
+              context,
+              "nom_produit",
+              "poids du produit",
+                  (onValidateVal){
+                if(onValidateVal.isEmpty){
+                  return "Le poids ne peut être vide";
+                }
+                return null;
+              },
+                  (onSaved){
+                title = onSaved;
+              },
+              borderFocusColor: Colors.blue,
+              borderColor: Colors.blue,
+              textColor: Colors.blue,
+              hintColor: Colors.blue.withOpacity(0.8),
+              borderRadius: 10
+          ),
+            // TAILLE
             const Padding(
-              padding:  EdgeInsets.only(top:20,left: 20,),
-              child:  Text("résumé :", style: TextStyle(
+              padding:  EdgeInsets.only(
+                top: 10,
+                left: 20,
+              ),
+              child:  Text("Taille :", style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 25,
+              fontSize: 20,
               color: Colors.blue 
               ),
             ),
@@ -86,11 +157,11 @@ class _AjoutState extends State<Ajout> {
               padding: const EdgeInsets.only(top:10),
               child:  FormHelper.inputFieldWidget(
                 context, 
-                "body", 
-                "résumé", 
+                "marque_produit",
+                "taille du produit",
                 (onValidateVal){
                   if(onValidateVal.isEmpty){
-                    return "Le résumé ne peut être vide";
+                    return "La taille ne peut être vide";
                   }
                   return null;
                 }, 
@@ -106,18 +177,86 @@ class _AjoutState extends State<Ajout> {
                 
                 
             ),
+          // QUANTITE
+          const Padding(
+            padding:  EdgeInsets.only(top:10,left: 20,),
+            child:  Text("Quantite :", style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.blue
+            ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top:10),
+            child:  FormHelper.inputFieldWidget(
+              context,
+              "marque_produit",
+              "quantite du produit",
+                  (onValidateVal){
+                if(onValidateVal.isEmpty){
+                  return "La quantité ne peut être vide";
+                }
+                return null;
+              },
+                  (onSaved){
+                body = onSaved;
+              },
+              borderFocusColor: Colors.blue,
+              borderColor: Colors.blue,
+              textColor: Colors.blue,
+              hintColor: Colors.blue.withOpacity(0.8),
+              borderRadius: 10,
+            ),
+
+          ),
+
+          // PRIX
+          const Padding(
+            padding:  EdgeInsets.only(top:10,left: 20,),
+            child:  Text("Prix :", style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.blue
+            ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(top:10),
+            child:  FormHelper.inputFieldWidget(
+              context,
+              "marque_produit",
+              "prix du produit",
+                  (onValidateVal){
+                if(onValidateVal.isEmpty){
+                  return "Le prix ne peut être vide";
+                }
+                return null;
+              },
+                  (onSaved){
+                body = onSaved;
+              },
+              borderFocusColor: Colors.blue,
+              borderColor: Colors.blue,
+              textColor: Colors.blue,
+              hintColor: Colors.blue.withOpacity(0.8),
+              borderRadius: 10,
+            ),
+
+          ),
             const SizedBox(
               height: 20,
             ),
             Center(
               child: FormHelper.submitButton(
-                "Validez", 
+                "Validez",
                 (){
                   dynamic validate = globalFormKey.currentState?.validate();
                   if(validate != null && validate){
                     globalFormKey.currentState?.save();
                     Produit.ajout(context, title, body);
-                  }             
+                  }
                 },
                 btnColor: Colors.blue,
                 borderColor: Colors.white,
@@ -125,7 +264,7 @@ class _AjoutState extends State<Ajout> {
                 borderRadius: 10
                ) ,
             )
-            
+
           ]
         ),
       );

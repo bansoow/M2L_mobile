@@ -43,11 +43,19 @@ class _AffichageState extends State<Affichage> {
                 itemBuilder: (context, i){
                   return Card(
                     child: ListTile(
-                      title: Text(snapshot.data![i]['nom_produit'], style: const TextStyle(fontSize: 30),),
+                      title: Text( "nom : " + snapshot.data![i]['nom_produit'], style: const TextStyle(fontSize: 30),),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text(snapshot.data![i]['marque_produit'], style: const TextStyle
+                          Text( "marque : " + snapshot.data![i]['marque_produit'], style: const TextStyle
+                            (fontSize: 20)),
+                          Text( "poids : " + snapshot.data![i]['poids_produit'], style: const TextStyle
+                            (fontSize: 20)),
+                          Text( "taille : " + snapshot.data![i]['taille_produit'], style: const TextStyle
+                            (fontSize: 20)),
+                          Text( "quantite : " + snapshot.data![i]['quantite_produit'], style: const TextStyle
+                            (fontSize: 20)),
+                          Text( "prix : " + snapshot.data![i]['prix_produit'], style: const TextStyle
                             (fontSize: 20)),
                       ]),
                     ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/pages/Affichage.dart';
 import 'package:flutterapp/pages/Ajout.dart';
 import 'package:flutterapp/pages/LoginPage.dart';
-import 'package:flutterapp/produit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,9 +18,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/' : (context) => LoginPage(),
-        '/liste': (context) => Affichage(),
-        '/ajout': (context) => Ajout()
+        '/' : (context) => const LoginPage(),
+        '/liste': (context) => const Affichage(),
+        '/ajout': (context) => const Ajout()
       },
     );
   }
