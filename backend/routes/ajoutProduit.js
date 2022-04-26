@@ -1,8 +1,8 @@
 const router = require('express-promise-router')();
 
-const { produit } = require('../controllers/produit');
+const { ajoutProduit } = require('../controllers/ajoutProduit');
 
 router.route('/')
-    .post(produit);
+    .post(ajoutProduit);
 
 module.exports = router;

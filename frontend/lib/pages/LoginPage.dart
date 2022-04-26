@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/produit.dart';
+import 'package:flutterapp/client.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                   dynamic validate = globalFormKey.currentState?.validate();
                   if(validate != null && validate){
                     globalFormKey.currentState?.save();
-                    Produit.Login(context, email, password);
+                    Client.Login(context, email, password);
                   }             
                 },
                 btnColor: Colors.blue,
