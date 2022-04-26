@@ -22,6 +22,8 @@ app.use('/api/listeProduit', listeProduitRoute);
 app.use('/api/listeClients', listeClientsRoute);
 app.use('/api/produit', produitRoute);
 
+app.use('/api/ajoutProduit', ajoutProduitRoute);
+
 app.get('/api', (_, res) => res.send("Hello from API v1"));
 
 app.listen(process.env.PORT, () => console.log(`Back end is running on PORT ${process.env.PORT}`));

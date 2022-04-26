@@ -16,7 +16,6 @@ class _AffichageState extends State<Affichage> {
   late Future<List> _bookList;
   @override 
   void initState() {
-    // TODO: implement initState
     super.initState();
     _bookList = Produit.getAllProduits();
   }
@@ -57,7 +56,18 @@ class _AffichageState extends State<Affichage> {
                             (fontSize: 20)),
                           Text( "prix : " + snapshot.data![i]['prix_produit'], style: const TextStyle
                             (fontSize: 20)),
-                      ]),
+                          TextButton(
+                            onPressed: null,
+                            child: Text("Modifier"),
+                            
+                            style: TextButton.styleFrom(
+                                padding: EdgeInsets.all(15),
+                                primary: Colors.red,
+                                alignment: Alignment.bottomRight,
+
+                                textStyle: TextStyle(fontSize: 18, color: Colors.red)),
+                          ),
+                        ]),
                     ),
                   );
                 }
