@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/pages/Affichage.dart';
 import 'package:flutterapp/pages/Ajout.dart';
+import 'package:flutterapp/pages/Modifier.dart';
+import 'package:flutterapp/pages/Supprimer.dart';
 import 'package:flutterapp/pages/LoginPage.dart';
 
 void main() {
@@ -20,7 +22,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/' : (context) => const LoginPage(),
         '/liste': (context) => const Affichage(),
-        '/ajout': (context) => const Ajout()
+        '/ajout': (context) => const Ajout(),
+        '/modifier': (context) => const Modifier(),
+        '/supprimer': (context) => const Supprimer()
       },
     );
   }

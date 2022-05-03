@@ -13,11 +13,13 @@ class Affichage extends StatefulWidget {
 
 class _AffichageState extends State<Affichage> {
   
-  late Future<List> _bookList;
+  late Future<List> _produitList;
+
+  String? idProduit;
   @override 
   void initState() {
     super.initState();
-    _bookList = Produit.getAllProduits();
+    _produitList = Produit.getAllProduits();
   }
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class _AffichageState extends State<Affichage> {
       Object? arg = ModalRoute.of(context)!.settings.arguments;
       var newLivre= jsonDecode(arg.toString());
        setState(() {
-         _bookList = _bookList.then<List>((value) {return [newLivre, ...value];});
+         _produitList = _produitList.then<List>((value) {return [newLivre, ...value];});
       });
     }
      return Scaffold(
@@ -34,7 +36,7 @@ class _AffichageState extends State<Affichage> {
       ),
       body: Container(
         child: FutureBuilder<List>(
-          future: _bookList,
+          future: _produitList,
           builder: (context, snapshot){
             if(snapshot.hasData){
               return ListView.builder(
@@ -56,16 +58,22 @@ class _AffichageState extends State<Affichage> {
                             (fontSize: 20)),
                           Text( "prix : " + snapshot.data![i]['prix_produit'], style: const TextStyle
                             (fontSize: 20)),
-                          TextButton(
-                            onPressed: null,
-                            child: Text("Modifier"),
-                            
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(15),
-                                primary: Colors.red,
-                                alignment: Alignment.bottomRight,
-
-                                textStyle: TextStyle(fontSize: 18, color: Colors.red)),
+                          FloatingActionButton(
+                            onPressed: () {
+                              idProduit = snapshot.data![i]['id_produit'].toString();
+                              Produit.supprimer(context, idProduit);
+                            },
+                            child: const Text("supprimer"),
+                          ),
+                          FloatingActionButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/modifier',
+                                arguments: snapshot.data![i]['id_produit'],
+                              );
+                            },
+                            child: const Text("modifier"),
                           ),
                         ]),
                     ),

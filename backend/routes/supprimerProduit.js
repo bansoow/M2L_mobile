@@ -1,8 +1,8 @@
 const router = require('express-promise-router')();
 
-const { produit } = require('../controllers/produit');
+const { supprimerProduit } = require('../controllers/produit');
 
-router.route('/')
-    .get(produit);
+router.route('/produit/supprimerProduit/:id')
+    .get(supprimerProduit);
 
 module.exports = router;
