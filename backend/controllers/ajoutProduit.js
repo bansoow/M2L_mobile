@@ -10,7 +10,6 @@ module.exports = {
             const taille = req.params.taille
             const quantite = req.params.quantite
             const prix = req.params.prix
-            console.log("nom:"+nom);
             connexion = await pool.getConnection();
             const result = await connexion.query('CALL ajoutProduit("'+nom+'","'+marque+'","'+poids+'","'+taille+'","'+quantite+'","'+prix+'")');
             return res.status(200).json(result)

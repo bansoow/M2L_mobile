@@ -1,274 +1,99 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutterapp/produit.dart';
-import 'package:snippet_coder_utils/FormHelper.dart';
-import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 class Modifier extends StatefulWidget {
   const Modifier({ Key? key }) : super(key: key);
 
   @override
-  State<Modifier> createState() => _AjoutState();
+  State<Modifier> createState() => _ModifierState();
 }
 
-class _AjoutState extends State<Modifier> {
-  bool isAPIcallProcess = false;
-  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  String? nom_produit;
-  String? marque_produit;
-  String? poids_produit;
-  String? taille_produit;
-  String? quantite_produit;
-  String? prix_produit;
+class _ModifierState extends State<Modifier> {
+
+  late Future<List> _produitList;
+
+  String? idProduit;
+  @override
+  void initState() {
+    super.initState();
+    _produitList = Produit.getProduit();
+  }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Nouveau produit"),
-        ),
-        backgroundColor : Colors.white,
-        body: ProgressHUD(
-          child: Form(
-            key: globalFormKey,
-            child: _AjoutUI(context),
-          ),
-          inAsyncCall: isAPIcallProcess,
-          opacity: 0.3,
-          key: UniqueKey(),
+    if(ModalRoute.of(context)!.settings.arguments != null){
+      Object? arg = ModalRoute.of(context)!.settings.arguments;
+      var newLivre= jsonDecode(arg.toString());
+      setState(() {
+        _produitList = _produitList.then<List>((value) {return [newLivre, ...value];});
+      });
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("produit"),
+      ),
+      body: Container(
+        child: FutureBuilder<List>(
+          future: _produitList,
+          builder: (context, snapshot){
+            if(snapshot.hasData){
+              return ListView.builder(
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (context, i){
+                    return Card(
+                      child: ListTile(
+                        title: Text( "nom : " + snapshot.data![i]['nom_produit'], style: const TextStyle(fontSize: 30),),
+                        subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text( "marque : " + snapshot.data![i]['marque_produit'], style: const TextStyle
+                                (fontSize: 20)),
+                              Text( "poids : " + snapshot.data![i]['poids_produit'], style: const TextStyle
+                                (fontSize: 20)),
+                              Text( "taille : " + snapshot.data![i]['taille_produit'], style: const TextStyle
+                                (fontSize: 20)),
+                              Text( "quantite : " + snapshot.data![i]['quantite_produit'], style: const TextStyle
+                                (fontSize: 20)),
+                              Text( "prix : " + snapshot.data![i]['prix_produit'], style: const TextStyle
+                                (fontSize: 20)),
+                              FloatingActionButton(
+                                onPressed: () {
+                                  idProduit = snapshot.data![i]['id_produit'].toString();
+                                  Produit.supprimer(context, idProduit);
+                                },
+                                child: const Text("supprimer"),
+                              ),
+                              FloatingActionButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/modifier',
+                                    arguments: snapshot.data![i]['id_produit'],
+                                  );
+                                },
+                                child: const Text("modifier"),
+                              ),
+                            ]),
+                      ),
+                    );
+                  }
+              );
+            }
+            else{
+              return const Center(
+                child: Text("Pas de données"),
+              );
+            }
+          },
         ),
       ),
-    );
-  }
-  Widget _AjoutUI(BuildContext context){
-    return SingleChildScrollView(
-      child:  Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // NOM
-            const Padding(
-              padding: EdgeInsets.only(
-                  left: 20,
-                  top: 15,
-                  bottom: 10
-              ),
-              child: Text("Nom :", style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.blue
-              ),
-              ),
-            ),
-            FormHelper.inputFieldWidget(
-                context,
-                "nom_produit",
-                "nom du produit",
-                    (onValidateVal){
-                  if(onValidateVal.isEmpty){
-                    return "Le nom ne peut être vide";
-                  }
-                  return null;
-                },
-                    (onSaved){
-                  nom_produit = onSaved;
-                },
-                borderFocusColor: Colors.blue,
-                borderColor: Colors.blue,
-                textColor: Colors.blue,
-                hintColor: Colors.blue.withOpacity(0.8),
-                borderRadius: 10
-            ),
-            // MARQUE
-            const Padding(
-              padding: EdgeInsets.only(
-                  left: 20,
-                  top: 10,
-                  bottom: 10
-              ),
-              child: Text("Marque :", style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.blue
-              ),
-              ),
-            ),
-            FormHelper.inputFieldWidget(
-                context,
-                "marque_produit",
-                "marque du produit",
-                    (onValidateVal){
-                  if(onValidateVal.isEmpty){
-                    return "La marque ne peut être vide";
-                  }
-                  return null;
-                }, (onSaved){
-              marque_produit = onSaved;
-            },
-                borderFocusColor: Colors.blue,
-                borderColor: Colors.blue,
-                textColor: Colors.blue,
-                hintColor: Colors.blue.withOpacity(0.8),
-                borderRadius: 10
-            ),
-            // POIDS
-            const Padding(
-              padding: EdgeInsets.only(
-                  left: 20,
-                  top: 10,
-                  bottom: 10
-              ),
-              child: Text("Poids :", style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.blue
-              ),
-              ),
-            ),
-            FormHelper.inputFieldWidget(
-                context,
-                "poids_produit",
-                "poids du produit",
-                    (onValidateVal){
-                  if(onValidateVal.isEmpty){
-                    return "Le poids ne peut être vide";
-                  }
-                  return null;
-                },
-                    (onSaved){
-                  poids_produit = onSaved;
-                },
-                borderFocusColor: Colors.blue,
-                borderColor: Colors.blue,
-                textColor: Colors.blue,
-                hintColor: Colors.blue.withOpacity(0.8),
-                borderRadius: 10
-            ),
-            // TAILLE
-            const Padding(
-              padding:  EdgeInsets.only(
-                top: 10,
-                left: 20,
-              ),
-              child:  Text("Taille :", style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.blue
-              ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:10),
-              child:  FormHelper.inputFieldWidget(
-                context,
-                "taille_produit",
-                "taille du produit",
-                    (onValidateVal){
-                  if(onValidateVal.isEmpty){
-                    return "La taille ne peut être vide";
-                  }
-                  return null;
-                },
-                    (onSaved){
-                  taille_produit = onSaved;
-                },
-                borderFocusColor: Colors.blue,
-                borderColor: Colors.blue,
-                textColor: Colors.blue,
-                hintColor: Colors.blue.withOpacity(0.8),
-                borderRadius: 10,
-              ),
-
-
-            ),
-            // QUANTITE
-            const Padding(
-              padding:  EdgeInsets.only(top:10,left: 20,),
-              child:  Text("Quantite :", style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.blue
-              ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:10),
-              child:  FormHelper.inputFieldWidget(
-                context,
-                "quantite_produit",
-                "quantite du produit",
-                    (onValidateVal){
-                  if(onValidateVal.isEmpty){
-                    return "La quantité ne peut être vide";
-                  }
-                  return null;
-                },
-                    (onSaved){
-                  quantite_produit = onSaved;
-                },
-                borderFocusColor: Colors.blue,
-                borderColor: Colors.blue,
-                textColor: Colors.blue,
-                hintColor: Colors.blue.withOpacity(0.8),
-                borderRadius: 10,
-              ),
-
-            ),
-
-            // PRIX
-            const Padding(
-              padding:  EdgeInsets.only(top:10,left: 20,),
-              child:  Text("Prix :", style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.blue
-              ),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(top:10),
-              child:  FormHelper.inputFieldWidget(
-                context,
-                "prix_produit",
-                "prix du produit",
-                    (onValidateVal){
-                  if(onValidateVal.isEmpty){
-                    return "Le prix ne peut être vide";
-                  }
-                  return null;
-                },
-                    (onSaved){
-                  prix_produit = onSaved;
-                },
-                borderFocusColor: Colors.blue,
-                borderColor: Colors.blue,
-                textColor: Colors.blue,
-                hintColor: Colors.blue.withOpacity(0.8),
-                borderRadius: 10,
-              ),
-
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: FormHelper.submitButton(
-                  "Validez",
-                      (){
-                    dynamic validate = globalFormKey.currentState?.validate();
-                    if(validate != null && validate){
-                      globalFormKey.currentState?.save();
-                      Produit.ajout(context, nom_produit, marque_produit, poids_produit, taille_produit, quantite_produit, prix_produit);
-                    }
-                  },
-                  btnColor: Colors.blue,
-                  borderColor: Colors.white,
-                  txtColor: Colors.white,
-                  borderRadius: 10
-              ) ,
-            )
-
-          ]
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/ajout');
+        },
+        child: const Text("+"),
       ),
     );
   }

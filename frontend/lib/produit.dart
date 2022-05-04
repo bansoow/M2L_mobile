@@ -17,6 +17,20 @@ class Produit {
     }
   }
 
+  static Future<List> getProduit() async {
+    try {
+      var res = await http.get(Uri.parse('http://127.0.0.1:8000/api/produit'));
+
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body);
+      } else {
+        return Future.error("erreur serveur");
+      }
+    } catch (err) {
+      return Future.error(err);
+    }
+  }
+
   static Login(BuildContext context, login, password) async {
     try {
       //var connection = {"email": login, "password": password};
@@ -35,26 +49,33 @@ class Produit {
     }
   }
 
-  static ajout(BuildContext context, date, heure, en_cours, tour,
-      nomcompetition, circuit) async {
-    try {
-      var res = await http.get(Uri.parse(
-          'http://192.168.22.98:5500/api/competition/add_competition/$circuit/$date/$heure/$en_cours/$tour/$nomcompetition'));
-      if (res.statusCode == 200) {
-        Navigator.pushNamed(context, '/liste');
-      } else {
-        Navigator.pushNamed(context, '/');
+  static ajout(BuildContext context, nom_produit, marque_produit, poids_produit, taille_produit, quantite_produit, prix_produit) async{
+
+    try{
+      Map<String,dynamic> data= {"nom_produit":nom_produit,"marque_produit":marque_produit,"poids_produit":poids_produit,"taille_produit":taille_produit,"quantite_produit":quantite_produit,"prix_produit":prix_produit};
+      var res = await http.get(
+        Uri.parse('http://127.0.0.1:8000/api/ajoutProduit/$nom_produit/$marque_produit/$poids_produit/$taille_produit/$quantite_produit/$prix_produit'),
+      );
+      if(res.statusCode == 201){
+        // Si ça ajoute pas
+        Navigator.pushNamed(context, '/', arguments: res.body
+        );
       }
-    } catch (err) {
+      else{
+        Navigator.pushNamed(context, '/liste');
+      }
+
+    }
+    catch(err){
       return Future.error(err);
     }
   }
 
   static supprimer(BuildContext context, id) async {
-    print('id del $id');
+    print('supprimer id : $id');
     try {
       var res = await http.get(Uri.parse(
-          'http://192.168.22.98:5500/api/competition/del_competition/$id'));
+          'http://127.0.0.1:8000/api/supprimerProduit/$id'));
       if (res.statusCode == 200) {
         Navigator.pushNamed(context, '/liste');
       } else {
@@ -65,14 +86,15 @@ class Produit {
     }
   }
 
-  static delinscrit(BuildContext context, idComp, idUser) async {
+  static modifier(BuildContext context, id) async {
+    print('modifier id : $id');
     try {
       var res = await http.get(Uri.parse(
-          'http://192.168.22.98:5500/api/competition/del_inscrit/$idComp/$idUser'));
+          'http://127.0.0.1:8000/api/supprimerProduit/$id'));
       if (res.statusCode == 200) {
         Navigator.pushNamed(context, '/liste');
       } else {
-        Navigator.pushNamed(context, '/liste');
+        Navigator.pushNamed(context, '/');
       }
     } catch (err) {
       return Future.error(err);
