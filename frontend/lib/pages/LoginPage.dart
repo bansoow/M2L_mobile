@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 20,
             ),
-            Center(
+            Center(w
               child: FormHelper.submitButton(
                 "login", 
                 (){

@@ -20,22 +20,20 @@ class Client {
     }
   }
 
-  static Login(BuildContext context, login, password) async{
-    try{
-      var connection = {"email": login, "password": password};
-      var res = await http.post(
-        // pour la connexion
-          Uri.parse("http://127.0.0.1:8000/api/listeclients"),
-          body: connection
+  static Login(BuildContext context, email, password) async {
+    try {
+      var connection = {"email": email, "password": password};
+      final res = await http.get(
+        Uri.parse("http://127.0.0.1:8000/api/verifConnexion/$email/$password"),
       );
-      if(res.statusCode != 200){
+      print(" le truc c'est " + jsonDecode(res.body)["result"]);
+      if (jsonDecode(res.body)["result"] == 'true' &&
+          jsonDecode(res.body)["admin"] == 'true') {
         Navigator.pushNamed(context, '/liste');
-      }
-      else{
+      } else {
         Navigator.pushNamed(context, '/');
       }
-    }
-    catch(err){
+    } catch (err) {
       return Future.error(err);
     }
   }

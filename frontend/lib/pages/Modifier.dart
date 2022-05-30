@@ -19,7 +19,7 @@ class _ModifierState extends State<Modifier> {
   @override
   void initState() {
     super.initState();
-    _produitList = Produit.getProduit();
+    //_produitList = Produit.getProduit();
   }
   @override
   Widget build(BuildContext context) {

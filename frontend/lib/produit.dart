@@ -17,32 +17,14 @@ class Produit {
     }
   }
 
-  static Future<List> getProduit() async {
+  static Future<List> getProduit(BuildContext context, id) async {
     try {
-      var res = await http.get(Uri.parse('http://127.0.0.1:8000/api/produit'));
 
+      var res = await http.get(Uri.parse('http://127.0.0.1:8000/api/produit/$id'));
       if (res.statusCode == 200) {
         return jsonDecode(res.body);
       } else {
         return Future.error("erreur serveur");
-      }
-    } catch (err) {
-      return Future.error(err);
-    }
-  }
-
-  static Login(BuildContext context, login, password) async {
-    try {
-      //var connection = {"email": login, "password": password};
-      final res = await http.get(
-        Uri.parse("http://127.0.0.1:8000/api/listeproduit"),
-      );
-      if (jsonDecode(res.body)["result"] == 'true' &&
-          jsonDecode(res.body)["user"]["admin"] == 1) {
-        //print(res);
-        Navigator.pushNamed(context, '/liste');
-      } else {
-        Navigator.pushNamed(context, '/');
       }
     } catch (err) {
       return Future.error(err);

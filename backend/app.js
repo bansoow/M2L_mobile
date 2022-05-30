@@ -3,7 +3,6 @@ require('dotenv').config({ path: `./config/${process.env.NODE_ENV}.env` })
 const express = require('express');
 
 const app = express();
-//const app =  require('express')();
 
 const cors = require('cors');
 app.use(cors())
@@ -17,6 +16,7 @@ const produitRoute = require('./routes/produit');
 
 const ajoutProduitRoute = require('./routes/ajoutProduit');
 const supprimerProduitRoute = require('./routes/supprimerProduit');
+const verifConnexionRoute = require('./routes/verifConnexion');
 
 
 app.use('/api/panier', panierRoute);
@@ -26,6 +26,7 @@ app.use('/api/produit', produitRoute);
 
 app.use('/api/ajoutProduit', ajoutProduitRoute);
 app.use('/api/supprimerProduit', supprimerProduitRoute);
+app.use('/api/verifConnexion', verifConnexionRoute);
 
 
 app.get('/api', (_, res) => res.send("Hello from API v1"));
