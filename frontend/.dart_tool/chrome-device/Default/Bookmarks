@@ -1,0 +1,40 @@
+{
+   "checksum": "e68f75aa784ed21fa4421e97501e9bcb",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13294336082756494",
+            "guid": "fcf98de2-01c1-4592-bcc8-6f5a8598b5db",
+            "id": "5",
+            "name": "Reqres - A hosted REST-API ready to respond to your AJAX requests",
+            "type": "url",
+            "url": "https://reqres.in/"
+         } ],
+         "date_added": "13294327780897147",
+         "date_modified": "13294336082756494",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Barre de favoris",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13294327780897160",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Autres favoris",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13294327780897167",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Favoris sur mobile",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}
