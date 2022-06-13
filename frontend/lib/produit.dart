@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+  const ip = '127.0.0.1';
+  const port = '8000';
+
 class Produit {
   static Future<List> getAllProduits() async {
     try {
-      var res = await http.get(Uri.parse('http://127.0.0.1:8000/api/listeproduit'));
+      var res = await http.get(Uri.parse('http://$ip:$port/api/listeproduit'));
 
       if (res.statusCode == 200) {
         return jsonDecode(res.body);
@@ -29,7 +32,7 @@ class Produit {
   static Future<List> getProduit(context, id) async {
     try {
       print("getProduit : " + id);
-      var res = await http.get(Uri.parse('http://127.0.0.1:8000/api/produit/$id'));
+      var res = await http.get(Uri.parse('http://$ip:$port/api/produit/$id'));
       if (res.statusCode == 200) {
         return jsonDecode(res.body);
       } else {
@@ -45,7 +48,7 @@ class Produit {
     try{
       Map<String,dynamic> data= {"nom_produit":nom_produit,"marque_produit":marque_produit,"poids_produit":poids_produit,"taille_produit":taille_produit,"quantite_produit":quantite_produit,"prix_produit":prix_produit};
       var res = await http.get(
-        Uri.parse('http://127.0.0.1:8000/api/ajoutProduit/$nom_produit/$marque_produit/$poids_produit/$taille_produit/$quantite_produit/$prix_produit'),
+        Uri.parse('http://$ip:$port/api/ajoutProduit/$nom_produit/$marque_produit/$poids_produit/$taille_produit/$quantite_produit/$prix_produit'),
       );
       if(res.statusCode == 201){
         // Si ça ajoute pas
@@ -66,7 +69,7 @@ class Produit {
     print('supprimer id : $id');
     try {
       var res = await http.get(Uri.parse(
-          'http://127.0.0.1:8000/api/supprimerProduit/$id'));
+          'http://$ip:$port/api/supprimerProduit/$id'));
       if (res.statusCode == 200) {
         Navigator.pushNamed(context, '/liste');
       } else {
@@ -81,7 +84,7 @@ class Produit {
     print('modifier id : $id');
     try {
       var res = await http.get(Uri.parse(
-          'http://127.0.0.1:8000/api/supprimerProduit/$id'));
+          'http://$ip:$port/api/supprimerProduit/$id'));
       if (res.statusCode == 200) {
         Navigator.pushNamed(context, '/liste');
       } else {

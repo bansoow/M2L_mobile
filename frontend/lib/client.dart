@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+  const ip = '127.0.0.1';
+  const port = '8000';
+
 class Client {
 
   static Future<List> getAllClients() async{
     try{
-      var res = await http.get(Uri.parse('http://127.0.0.1:8000/api/listeclients'));
+      var res = await http.get(Uri.parse('http://$ip:$port/api/listeclients'));
       print(res);
       if(res.statusCode == 200){
         return jsonDecode(res.body);
@@ -24,7 +27,7 @@ class Client {
     try {
       var connection = {"email": email, "password": password};
       final res = await http.get(
-        Uri.parse("http://127.0.0.1:8000/api/verifConnexion/$email/$password"),
+        Uri.parse("http://$ip:$port/api/verifConnexion/$email/$password"),
       );
       print(" le truc c'est " + jsonDecode(res.body)["result"]);
       if (jsonDecode(res.body)["result"] == 'true' &&
